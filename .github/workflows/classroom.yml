@@ -1,7 +1,5 @@
 name: Autograding Tests
-'on':
-- workflow_dispatch
-- repository_dispatch
+'on': [push]
 permissions:
   checks: write
   actions: read
@@ -13,7 +11,7 @@ jobs:
     steps:
     - uses: actions/setup-node@v3
       with: 
-       node-version: 22
+       node-version: 16
     - name: Checkout code
       uses: actions/checkout@v4
     - name: Backend List Teachers
