@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationExtras, Navigation } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 import { AppServiceService } from '../../app-service.service';
 
 @Component({
@@ -9,18 +9,19 @@ import { AppServiceService } from '../../app-service.service';
 })
 export class EditTeacherComponent implements OnInit {
   teacherData: any;
-  navigation: Navigation | null;
+  navigation: any;
 
-  constructor(private service: AppServiceService, private router: Router) { }
+  constructor(private service: AppServiceService, private router: Router) {
+    this.navigation = this.router.getCurrentNavigation();
+  }
 
   ngOnInit(): void {
-    this.navigation = this.router.getCurrentNavigation();
     this.getTeacherData();
   }
 
   getTeacherData() {
-    if (!this.navigation?.extras?.state?.id) {
-      console.error('No teacher ID provided');
+    if (!this.navigation?.extras?.state) {
+      console.error('No state available in navigation extras');
       return;
     }
 
@@ -39,8 +40,8 @@ export class EditTeacherComponent implements OnInit {
   }
 
   editTeacher(values: any) {
-    if (!this.navigation?.extras?.state?.id) {
-      console.error('No teacher ID provided');
+    if (!this.navigation?.extras?.state) {
+      console.error('No state available in navigation extras');
       return;
     }
 
