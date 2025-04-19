@@ -3,13 +3,15 @@ process.env.NODE_ENV = "test";
 
 fixture`Testing Teacher UI`
     .page`http://localhost:4401/`
-test('Testing edit teachers', async t => {
-    await t.navigateTo("/");
-    await t.click("#teacher-edit-10003");
 
-    await t.typeText("#teacher-name", "Changed Teacher Name");
-    await t.typeText("#teacher-age", "99");
-    await t.click("#teacher-edit");
+test('Testing add teachers', async t => {
+    await t.navigateTo("/dbinitialize");
+
+    await t.navigateTo("/addTeacher");
+    await t.typeText("#teacher-id", "123456");
+    await t.typeText("#teacher-name", "Mohan Perera");
+    await t.typeText("#teacher-age", "45");
+    await t.click("#teacher-add");
 
     await t.navigateTo("/");
 
@@ -17,7 +19,5 @@ test('Testing edit teachers', async t => {
     const rowCount = await table.find('tr').count;
 
     let tdText = await table.find('tr').nth(rowCount - 1).innerText;
-    await t.expect(tdText).contains("Changed Teacher Name");
-
-    await t.click("#teacher-delete-10003");
+    await t.expect(tdText).contains("Mohan Perera");
 });

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
-import { AppServiceService } from '../../app-service.service';
+import {AppServiceService} from '../../app-service.service';
 
 @Component({
   selector: 'app-edit-teacher',
@@ -8,51 +8,37 @@ import { AppServiceService } from '../../app-service.service';
   styleUrls: ['./edit-teacher.component.css']
 })
 export class EditTeacherComponent implements OnInit {
-  teacherData: any;
-  navigation: any;
 
-  constructor(private service: AppServiceService, private router: Router) {
-    this.navigation = this.router.getCurrentNavigation();
-  }
+
+  teacherData: any;
+
+
+  constructor(private service : AppServiceService, private router: Router) { }
+
+  navigation = this.router.getCurrentNavigation();
 
   ngOnInit(): void {
     this.getTeacherData();
   }
 
-  getTeacherData() {
-    if (!this.navigation?.extras?.state) {
-      console.error('No state available in navigation extras');
-      return;
-    }
-
+  getTeacherData(){
     let teacher = {
-      id: this.navigation.extras.state.id
-    };
-
-    this.service.getOneTeacherData(teacher).subscribe(
-      (response) => {
-        this.teacherData = response[0];
-      },
-      (error) => {
-        console.log('ERROR - ', error);
-      }
-    );
-  }
-
-  editTeacher(values: any) {
-    if (!this.navigation?.extras?.state) {
-      console.error('No state available in navigation extras');
-      return;
+      id : this.navigation.extras.state.id
     }
-
-    values.id = this.navigation.extras.state.id;
-    this.service.editTeacher(values).subscribe(
-      (response) => {
-        this.teacherData = response[0];
-      },
-      (error) => {
-        console.log('ERROR - ', error);
-      }
-    );
+    this.service.getOneTeacherData(teacher).subscribe((response)=>{
+      this.teacherData = response[0];
+    },(error)=>{
+      console.log('ERROR - ', error)
+    })
   }
+
+  editTeacher(values){
+    values.id = this.navigation.extras.state.id;
+    this.service.editTeacher(values).subscribe((response)=>{
+      this.teacherData = response[0];
+    },(error)=>{
+      console.log('ERROR - ', error)
+    })
+  }
+
 }
